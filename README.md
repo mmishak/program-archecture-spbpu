@@ -6,3 +6,6 @@
 # Задание
 
 Система для организации коллективных велопрогулок.
+
+Больше подробностей в [wiki проекта](https://github.com/mmishak/program-archecture-spbpu/wiki)
+
