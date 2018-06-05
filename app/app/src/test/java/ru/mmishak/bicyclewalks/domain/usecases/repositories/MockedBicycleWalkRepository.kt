@@ -53,13 +53,13 @@ class MockedBicycleWalkRepository : BicycleWalkRepository {
     }
 
     override fun search(walkType: WalkType?, maxDuration: Long?, maxDistance: Int?, date: Long?, maxPrice: Int?, paymentType: PaymentType?): List<BicycleWalk> {
-        return DataBaseImitator.bicycleWalks.filter {
-            it.walkType == walkType ||
-                    it.duration <= maxDuration ?: it.duration ||
-                    it.distance <= maxDistance ?: it.distance ||
-                    DateTimeHelper.equalsDates(it.date, date ?: 0) ||
-                    it.price <= maxPrice ?: it.price ||
-                    it.paymentType == paymentType
+        return DataBaseImitator.bicycleWalks.filter { walk ->
+            walkType?.let { walk.walkType == it } ?: true &&
+                    maxDuration?.let { walk.duration <= it } ?: true &&
+                    maxDistance?.let { walk.distance <= it } ?: true &&
+                    date?.let { DateTimeHelper.equalsDates(walk.date, it) } ?: true &&
+                    maxPrice?.let { walk.price <= it } ?: true &&
+                    paymentType?.let { walk.paymentType == it } ?: true
         }
     }
 }

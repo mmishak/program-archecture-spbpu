@@ -7,8 +7,6 @@ import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseCyclist
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseOrganizer
 import ru.mmishak.bicyclewalks.domain.entities.users.Cyclist
 import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
 import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
@@ -60,7 +58,7 @@ class CyclistWalkRegistrationTest {
                 organizer = organizer,
                 leaderStatus = LeaderStatus.WITHOUT_LEADER
         )
-        bicycleWalkRepository.create(
+        walk3 = bicycleWalkRepository.create(
                 title = "title3",
                 description = "some description 3",
                 walkType = WalkType.WALK,
@@ -82,9 +80,14 @@ class CyclistWalkRegistrationTest {
 
         val walk = searchWalksResult[0]
 
-        cyclist.registerToWalk(walk)
-
-
-
+        cyclist.registerToWalk(walk, callback = {isSuccess, _ ->
+            if (isSuccess) {
+                val cyclistWalks = bicycleWalkRepository.getAllForCyclist(cyclist)
+                Assert.assertFalse("Cyclist not found after registration to walk.", cyclistWalks.isEmpty())
+                Assert.assertTrue("Cyclist not found after registration to walk.", cyclistWalks.contains(walk))
+            } else {
+                throw Exception("Cyclist registration failed.")
+            }
+        })
     }
 }
