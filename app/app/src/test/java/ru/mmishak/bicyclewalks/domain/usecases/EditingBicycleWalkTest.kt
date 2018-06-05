@@ -3,14 +3,12 @@ package ru.mmishak.bicyclewalks.domain.usecases
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseLeader
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseOrganizer
-import ru.mmishak.bicyclewalks.domain.entities.users.Leader
-import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
@@ -24,9 +22,9 @@ class EditingBicycleWalkTest {
     private lateinit var bicycleWalkRepository: BicycleWalkRepository
     private lateinit var organizerRepository: OrganizerRepository
     private lateinit var leaderRepository: LeaderRepository
-    private lateinit var organizer: Organizer
-    private lateinit var leader: Leader
-    private lateinit var walk: BicycleWalk
+    private lateinit var organizer: OrganizerEntity
+    private lateinit var leader: LeaderEntity
+    private lateinit var walk: BicycleWalkEntity
 
     @Before
     fun setUp() {

@@ -1,7 +1,7 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
 import ru.mmishak.bicyclewalks.domain.entities.Entity
-import ru.mmishak.bicyclewalks.domain.entities.users.User
+import ru.mmishak.bicyclewalks.domain.entities.users.base.UserEntity
 
 fun <T : Entity> MutableList<T>.generateId(): Int {
     var id = 0
@@ -28,4 +28,4 @@ fun <T : Entity> MutableList<T>.saveChanges(entity: T) {
     foundIndex?.also { this[foundIndex] = entity }
 }
 
-fun <T : User> MutableList<T>.loginExists(login: String) = this.any { it.login == login }
+fun <T : UserEntity> MutableList<T>.loginExists(login: String) = this.any { it.login == login }

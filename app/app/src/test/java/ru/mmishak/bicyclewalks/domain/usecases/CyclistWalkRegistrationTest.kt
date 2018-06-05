@@ -3,12 +3,12 @@ package ru.mmishak.bicyclewalks.domain.usecases
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.users.Cyclist
-import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.CyclistRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
@@ -22,11 +22,11 @@ class CyclistWalkRegistrationTest {
     private lateinit var bicycleWalkRepository: BicycleWalkRepository
     private lateinit var cyclistRepository: CyclistRepository
     private lateinit var organizerRepository: OrganizerRepository
-    private lateinit var organizer: Organizer
-    private lateinit var cyclist: Cyclist
-    private lateinit var walk1: BicycleWalk
-    private lateinit var walk2: BicycleWalk
-    private lateinit var walk3: BicycleWalk
+    private lateinit var organizer: OrganizerEntity
+    private lateinit var cyclist: CyclistEntity
+    private lateinit var walk1: BicycleWalkEntity
+    private lateinit var walk2: BicycleWalkEntity
+    private lateinit var walk3: BicycleWalkEntity
 
     @Before
     fun setUp() {
@@ -83,10 +83,10 @@ class CyclistWalkRegistrationTest {
         cyclist.registerToWalk(walk, callback = {isSuccess, _ ->
             if (isSuccess) {
                 val cyclistWalks = bicycleWalkRepository.getAllForCyclist(cyclist)
-                Assert.assertFalse("Cyclist not found after registration to walk.", cyclistWalks.isEmpty())
-                Assert.assertTrue("Cyclist not found after registration to walk.", cyclistWalks.contains(walk))
+                Assert.assertFalse("CyclistEntity not found after registration to walk.", cyclistWalks.isEmpty())
+                Assert.assertTrue("CyclistEntity not found after registration to walk.", cyclistWalks.contains(walk))
             } else {
-                throw Exception("Cyclist registration failed.")
+                throw Exception("CyclistEntity registration failed.")
             }
         })
     }

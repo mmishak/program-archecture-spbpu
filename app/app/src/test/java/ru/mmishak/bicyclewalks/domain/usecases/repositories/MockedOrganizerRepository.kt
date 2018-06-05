@@ -1,16 +1,16 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseOrganizer
-import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
 import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
 
 class MockedOrganizerRepository : OrganizerRepository {
 
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, title: String): Organizer {
+    override fun create(login: String, password: String, email: String, title: String): OrganizerEntity {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
-        val organizer = BaseOrganizer(
+        val organizer = Organizer(
                 id = generateId(),
                 login = login,
                 password = password,
@@ -27,7 +27,7 @@ class MockedOrganizerRepository : OrganizerRepository {
 
     override fun get(id: Int) = DataBaseImitator.organizers.find(id)
 
-    override fun delete(entity: Organizer) = DataBaseImitator.organizers.delete(entity)
+    override fun delete(entity: OrganizerEntity) = DataBaseImitator.organizers.delete(entity)
 
-    override fun saveChanges(entity: Organizer) = DataBaseImitator.organizers.saveChanges(entity)
+    override fun saveChanges(entity: OrganizerEntity) = DataBaseImitator.organizers.saveChanges(entity)
 }

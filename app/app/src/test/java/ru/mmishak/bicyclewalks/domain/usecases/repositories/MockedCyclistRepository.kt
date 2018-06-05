@@ -1,16 +1,16 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseCyclist
-import ru.mmishak.bicyclewalks.domain.entities.users.Cyclist
+import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Cyclist
+import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
 import ru.mmishak.bicyclewalks.domain.repositories.base.CyclistRepository
 
 class MockedCyclistRepository : CyclistRepository {
 
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): Cyclist {
+    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): CyclistEntity {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
-        val cyclist = BaseCyclist(
+        val cyclist = Cyclist(
                 id = generateId(),
                 login = login,
                 password = password,
@@ -29,7 +29,7 @@ class MockedCyclistRepository : CyclistRepository {
 
     override fun get(id: Int) = DataBaseImitator.cyclists.find(id)
 
-    override fun delete(entity: Cyclist) = DataBaseImitator.cyclists.delete(entity)
+    override fun delete(entity: CyclistEntity) = DataBaseImitator.cyclists.delete(entity)
 
-    override fun saveChanges(entity: Cyclist) = DataBaseImitator.cyclists.saveChanges(entity)
+    override fun saveChanges(entity: CyclistEntity) = DataBaseImitator.cyclists.saveChanges(entity)
 }

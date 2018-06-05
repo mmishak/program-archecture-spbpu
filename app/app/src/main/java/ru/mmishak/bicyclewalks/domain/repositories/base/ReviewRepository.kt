@@ -1,10 +1,10 @@
 package ru.mmishak.bicyclewalks.domain.repositories.base
 
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
-import ru.mmishak.bicyclewalks.domain.entities.review.Review
-import ru.mmishak.bicyclewalks.domain.entities.review.TextReview
-import ru.mmishak.bicyclewalks.domain.entities.users.Human
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
+import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
+import ru.mmishak.bicyclewalks.domain.entities.review.implementation.TextReview
+import ru.mmishak.bicyclewalks.domain.entities.users.base.HumanEntity
 
-interface ReviewRepository : BaseRepository<Review> {
-    fun createTextReview(author: Human, bicycleWalk: BicycleWalk, time: Long, text: String): TextReview
+interface ReviewRepository : BaseRepository<ReviewEntity> {
+    fun createTextReview(author: HumanEntity, bicycleWalk: BicycleWalkEntity, time: Long, text: String): TextReview
 }

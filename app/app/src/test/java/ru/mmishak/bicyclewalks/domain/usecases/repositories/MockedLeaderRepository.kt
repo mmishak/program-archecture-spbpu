@@ -1,16 +1,16 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseLeader
-import ru.mmishak.bicyclewalks.domain.entities.users.Leader
+import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Leader
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
 import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
 
 class MockedLeaderRepository : LeaderRepository {
 
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): Leader {
+    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): LeaderEntity {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
-        val leader = BaseLeader(
+        val leader = Leader(
                 id = generateId(),
                 login = login,
                 password = password,
@@ -29,8 +29,8 @@ class MockedLeaderRepository : LeaderRepository {
 
     override fun get(id: Int) = DataBaseImitator.leaders.find(id)
 
-    override fun delete(entity: Leader) = DataBaseImitator.leaders.delete(entity)
+    override fun delete(entity: LeaderEntity) = DataBaseImitator.leaders.delete(entity)
 
-    override fun saveChanges(entity: Leader) = DataBaseImitator.leaders.saveChanges(entity)
+    override fun saveChanges(entity: LeaderEntity) = DataBaseImitator.leaders.saveChanges(entity)
 
 }

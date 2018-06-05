@@ -1,12 +1,15 @@
-package ru.mmishak.bicyclewalks.domain.entities.bicyclewalk
+package ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.implementation
 
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.review.Review
-import ru.mmishak.bicyclewalks.domain.entities.users.*
+import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 
-data class BaseBicycleWalk(
+data class BicycleWalk(
         override val id: Int,
         override var title: String,
         override var description: String,
@@ -16,11 +19,11 @@ data class BaseBicycleWalk(
         override val date: Long,
         override val price: Int,
         override val paymentType: PaymentType,
-        override val organizer: Organizer,
-        override val cyclists: MutableList<Cyclist>,
-        override val reviews: MutableList<Review>,
-        override var leader: Leader? = null,
+        override val organizer: OrganizerEntity,
+        override val cyclists: MutableList<CyclistEntity>,
+        override val reviews: MutableList<ReviewEntity>,
+        override var leader: LeaderEntity? = null,
         override var leaderStatus: LeaderStatus = if (leader == null) LeaderStatus.WITHOUT_LEADER else LeaderStatus.WAITING_ACCEPT
-) : BicycleWalk {
+) : BicycleWalkEntity {
     override fun isPublished() = leaderStatus == LeaderStatus.WITHOUT_LEADER || leaderStatus == LeaderStatus.ACCEPTED
 }

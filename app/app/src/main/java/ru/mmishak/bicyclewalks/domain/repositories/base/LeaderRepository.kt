@@ -1,5 +1,5 @@
 package ru.mmishak.bicyclewalks.domain.repositories.base
 
-import ru.mmishak.bicyclewalks.domain.entities.users.Leader
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
 
-interface LeaderRepository : HumanRepository<Leader>
+interface LeaderRepository : HumanRepository<LeaderEntity>

@@ -1,12 +1,14 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BaseBicycleWalk
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.implementation.BicycleWalk
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.review.Review
-import ru.mmishak.bicyclewalks.domain.entities.users.*
+import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.util.DateTimeHelper
 
@@ -17,23 +19,23 @@ class MockedBicycleWalkRepository : BicycleWalkRepository {
 
     override fun get(id: Int) = DataBaseImitator.bicycleWalks.find(id)
 
-    override fun delete(entity: BicycleWalk) = DataBaseImitator.bicycleWalks.delete(entity)
+    override fun delete(entity: BicycleWalkEntity) = DataBaseImitator.bicycleWalks.delete(entity)
 
-    override fun saveChanges(entity: BicycleWalk) = DataBaseImitator.bicycleWalks.saveChanges(entity)
+    override fun saveChanges(entity: BicycleWalkEntity) = DataBaseImitator.bicycleWalks.saveChanges(entity)
 
-    override fun getAllForOrganizer(organizer: Organizer) = DataBaseImitator.bicycleWalks.filter { it.organizer.id == organizer.id }
+    override fun getAllForOrganizer(organizer: OrganizerEntity) = DataBaseImitator.bicycleWalks.filter { it.organizer.id == organizer.id }
 
-    override fun getAllForLeader(leader: Leader) = DataBaseImitator.bicycleWalks.filter { it.leader?.id == leader.id }
+    override fun getAllForLeader(leader: LeaderEntity) = DataBaseImitator.bicycleWalks.filter { it.leader?.id == leader.id }
 
-    override fun getAllForCyclist(cyclist: Cyclist) = DataBaseImitator.bicycleWalks.filter { it.cyclists.any { it.id == cyclist.id } }
+    override fun getAllForCyclist(cyclist: CyclistEntity) = DataBaseImitator.bicycleWalks.filter { it.cyclists.any { it.id == cyclist.id } }
 
     override fun getAllAccepted() = DataBaseImitator.bicycleWalks.filter { it.leaderStatus == LeaderStatus.WITHOUT_LEADER || it.leaderStatus == LeaderStatus.ACCEPTED }
 
     override fun create(title: String, description: String, walkType: WalkType, duration: Long,
                         distance: Int, date: Long, price: Int, paymentType: PaymentType,
-                        organizer: Organizer, cyclists: MutableList<Cyclist>, reviews: MutableList<Review>,
-                        leader: Leader?, leaderStatus: LeaderStatus?): BicycleWalk {
-        val walk = BaseBicycleWalk(
+                        organizer: OrganizerEntity, cyclists: MutableList<CyclistEntity>, reviews: MutableList<ReviewEntity>,
+                        leader: LeaderEntity?, leaderStatus: LeaderStatus?): BicycleWalkEntity {
+        val walk = BicycleWalk(
                 id = generateId(),
                 title = title,
                 description = description,
@@ -52,7 +54,7 @@ class MockedBicycleWalkRepository : BicycleWalkRepository {
         return walk
     }
 
-    override fun search(walkType: WalkType?, maxDuration: Long?, maxDistance: Int?, date: Long?, maxPrice: Int?, paymentType: PaymentType?): List<BicycleWalk> {
+    override fun search(walkType: WalkType?, maxDuration: Long?, maxDistance: Int?, date: Long?, maxPrice: Int?, paymentType: PaymentType?): List<BicycleWalkEntity> {
         return DataBaseImitator.bicycleWalks.filter { walk ->
             walkType?.let { walk.walkType == it } ?: true &&
                     maxDuration?.let { walk.duration <= it } ?: true &&

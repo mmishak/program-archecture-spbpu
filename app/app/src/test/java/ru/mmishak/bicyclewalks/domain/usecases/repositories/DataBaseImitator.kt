@@ -1,13 +1,15 @@
 package ru.mmishak.bicyclewalks.domain.usecases.repositories
 
-import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
-import ru.mmishak.bicyclewalks.domain.entities.users.*
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 
 object DataBaseImitator {
-    val bicycleWalks = mutableListOf<BicycleWalk>()
-    val organizers = mutableListOf<Organizer>()
-    val leaders = mutableListOf<Leader>()
-    val cyclists = mutableListOf<Cyclist>()
+    val bicycleWalks = mutableListOf<BicycleWalkEntity>()
+    val organizers = mutableListOf<OrganizerEntity>()
+    val leaders = mutableListOf<LeaderEntity>()
+    val cyclists = mutableListOf<CyclistEntity>()
 
     fun reset() {
         bicycleWalks.clear()

@@ -6,10 +6,8 @@ import org.junit.Test
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseLeader
-import ru.mmishak.bicyclewalks.domain.entities.users.BaseOrganizer
-import ru.mmishak.bicyclewalks.domain.entities.users.Leader
-import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
+import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
 import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
@@ -20,8 +18,8 @@ class PublishingBicycleWalkTest {
     private lateinit var bicycleWalkRepository: BicycleWalkRepository
     private lateinit var organizerRepository: OrganizerRepository
     private lateinit var leaderRepository: LeaderRepository
-    private lateinit var organizer: Organizer
-    private lateinit var leader: Leader
+    private lateinit var organizer: OrganizerEntity
+    private lateinit var leader: LeaderEntity
 
     @Before
     fun setUp() {
@@ -53,7 +51,7 @@ class PublishingBicycleWalkTest {
 
         val requestedWalksForLeader = bicycleWalkRepository.getAllForLeader(leader).filter { it.leaderStatus == LeaderStatus.WAITING_ACCEPT }
 
-        Assert.assertTrue("BaseLeader not receive request.", requestedWalksForLeader.contains(walk))
+        Assert.assertTrue("Leader not receive request.", requestedWalksForLeader.contains(walk))
 
         leader.acceptWalkRequest(walk)
 
