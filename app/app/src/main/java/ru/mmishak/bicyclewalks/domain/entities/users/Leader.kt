@@ -1,11 +1,9 @@
 package ru.mmishak.bicyclewalks.domain.entities.users
 
-class Leader(
-        id: Int,
-        login: String,
-        password: String,
-        email: String,
-        firstName: String,
-        secondName: String,
-        phone: String
-) : Human(id, login, password, email, firstName, secondName, phone)
+import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.BicycleWalk
+
+interface Leader : Human {
+    fun acceptWalkRequest(walk: BicycleWalk)
+
+    fun rejectWalkRequest(walk: BicycleWalk)
+}

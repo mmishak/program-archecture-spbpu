@@ -1,15 +1,16 @@
-package ru.mmishak.bicyclewalks.domain.repositories
+package ru.mmishak.bicyclewalks.domain.repositories.base
 
 import ru.mmishak.bicyclewalks.domain.entities.Entity
+import kotlin.collections.ArrayList
 
 interface BaseRepository<T : Entity> {
+    fun generateId(): Int
+
     fun getAll(): List<T>
 
-    fun get(id: Int): T
+    fun get(id: Int): T?
 
     fun delete(entity: T)
-
-    fun add(entity: T)
 
     fun saveChanges(entity: T)
 }

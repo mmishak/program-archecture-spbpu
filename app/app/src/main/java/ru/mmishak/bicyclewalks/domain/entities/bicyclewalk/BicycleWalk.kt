@@ -5,22 +5,22 @@ import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
 import ru.mmishak.bicyclewalks.domain.entities.review.Review
-import ru.mmishak.bicyclewalks.domain.entities.users.Cyclist
-import ru.mmishak.bicyclewalks.domain.entities.users.Leader
-import ru.mmishak.bicyclewalks.domain.entities.users.Organizer
+import ru.mmishak.bicyclewalks.domain.entities.users.*
 
 interface BicycleWalk : Entity {
-    val title: String
-    val description: String
+    var title: String
+    var description: String
     val walkType: WalkType
-    val duration: Long
-    val distance: Int
+    var duration: Long
+    var distance: Int
     val date: Long
     val price: Int
     val paymentType: PaymentType
     val organizer: Organizer
-    val cyclists: List<Cyclist>
-    val reviews: List<Review>
+    val cyclists: MutableList<Cyclist>
+    val reviews: MutableList<Review>
     var leader: Leader?
     var leaderStatus: LeaderStatus
+
+    fun isPublished(): Boolean
 }

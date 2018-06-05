@@ -1,8 +1,9 @@
 package ru.mmishak.bicyclewalks.domain.entities.users
 
-abstract class BaseUser(
+data class BaseOrganizer(
         override val id: Int,
         override val login: String,
         override val password: String,
-        override val email: String
-) : User
+        override val email: String,
+        override val title: String
+) : Organizer
