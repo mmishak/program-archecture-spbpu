@@ -7,8 +7,30 @@ import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
 
 class MockedLeaderRepository : LeaderRepository {
 
+    override fun generateId() = DataBaseImitator.leaders.generateId()
+
+    override fun getAll(callback: (isSuccess: Boolean, entities: List<LeaderEntity>) -> Unit) {
+        callback.invoke(true, DataBaseImitator.leaders.toList())
+    }
+
+    override fun get(id: Int, callback: (entity: LeaderEntity?) -> Unit) {
+        callback.invoke(DataBaseImitator.leaders.find(id))
+    }
+
+    override fun delete(entity: LeaderEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
+        val isSuccess = DataBaseImitator.leaders.delete(entity)
+        callback?.invoke(isSuccess)
+    }
+
+    override fun saveChanges(entity: LeaderEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
+        val isSuccess = DataBaseImitator.leaders.saveChanges(entity)
+        callback?.invoke(isSuccess)
+    }
+
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): LeaderEntity {
+    override fun create(login: String, password: String, email: String, firstName: String,
+                        secondName: String, phone: String,
+                        callback: ((entity: LeaderEntity?) -> Unit)?) {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
         val leader = Leader(
                 id = generateId(),
@@ -19,18 +41,7 @@ class MockedLeaderRepository : LeaderRepository {
                 secondName = secondName,
                 phone = phone
         )
-        DataBaseImitator.leaders.add(leader)
-        return leader
+        val isSuccess = DataBaseImitator.leaders.add(leader)
+        callback?.invoke(if (isSuccess) leader else null)
     }
-
-    override fun generateId() = DataBaseImitator.leaders.generateId()
-
-    override fun getAll() = DataBaseImitator.leaders.toList()
-
-    override fun get(id: Int) = DataBaseImitator.leaders.find(id)
-
-    override fun delete(entity: LeaderEntity) = DataBaseImitator.leaders.delete(entity)
-
-    override fun saveChanges(entity: LeaderEntity) = DataBaseImitator.leaders.saveChanges(entity)
-
 }

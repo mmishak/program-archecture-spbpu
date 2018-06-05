@@ -2,6 +2,7 @@ package ru.mmishak.bicyclewalks.domain.entities.users.implementation
 
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
+import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 
 data class Cyclist(
@@ -27,9 +28,5 @@ data class Cyclist(
             walk.cyclists.add(this)
             callback?.invoke(true, walk)
         }
-    }
-
-    override fun addReview(walk: BicycleWalkEntity) {
-        TODO("not implemented")
     }
 }

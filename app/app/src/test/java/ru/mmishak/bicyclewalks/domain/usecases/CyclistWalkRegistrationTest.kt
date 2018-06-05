@@ -34,9 +34,13 @@ class CyclistWalkRegistrationTest {
         bicycleWalkRepository = MockedBicycleWalkRepository()
         cyclistRepository = MockedCyclistRepository()
         organizerRepository = MockedOrganizerRepository()
-        organizer = organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company")
-        cyclist = cyclistRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000")
-        walk1 = bicycleWalkRepository.create(
+        organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company") {
+            organizer = it!!
+        }
+        cyclistRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000") {
+            cyclist = it!!
+        }
+        bicycleWalkRepository.create(
                 title = "title1",
                 description = "some description 1",
                 walkType = WalkType.WALK,
@@ -46,8 +50,8 @@ class CyclistWalkRegistrationTest {
                 paymentType = PaymentType.FREE,
                 organizer = organizer,
                 leaderStatus = LeaderStatus.WITHOUT_LEADER
-        )
-        walk2 = bicycleWalkRepository.create(
+        ) { walk1 = it!! }
+        bicycleWalkRepository.create(
                 title = "title2",
                 description = "some description 2",
                 walkType = WalkType.WALK,
@@ -57,8 +61,8 @@ class CyclistWalkRegistrationTest {
                 paymentType = PaymentType.FREE,
                 organizer = organizer,
                 leaderStatus = LeaderStatus.WITHOUT_LEADER
-        )
-        walk3 = bicycleWalkRepository.create(
+        ) { walk2 = it!! }
+        bicycleWalkRepository.create(
                 title = "title3",
                 description = "some description 3",
                 walkType = WalkType.WALK,
@@ -68,26 +72,30 @@ class CyclistWalkRegistrationTest {
                 paymentType = PaymentType.FREE,
                 organizer = organizer,
                 leaderStatus = LeaderStatus.WITHOUT_LEADER
-        )
+        ) { walk3 = it!! }
     }
 
     @Test
     fun cyclistWalkRegistration() {
-        val searchWalksResult = bicycleWalkRepository.search(paymentType = PaymentType.FREE, maxDistance = 14)
-        Assert.assertTrue("Bad search response.", searchWalksResult.contains(walk1))
-        Assert.assertFalse("Bad search response.", searchWalksResult.contains(walk2))
-        Assert.assertTrue("Bad search response.", searchWalksResult.contains(walk3))
+        bicycleWalkRepository.search(paymentType = PaymentType.FREE, maxDistance = 14) { isSuccess, searchResult ->
+            if (!isSuccess) throw Exception("Search fail.")
 
-        val walk = searchWalksResult[0]
+            Assert.assertTrue("Bad search response.", searchResult.contains(walk1))
+            Assert.assertFalse("Bad search response.", searchResult.contains(walk2))
+            Assert.assertTrue("Bad search response.", searchResult.contains(walk3))
 
-        cyclist.registerToWalk(walk, callback = {isSuccess, _ ->
-            if (isSuccess) {
-                val cyclistWalks = bicycleWalkRepository.getAllForCyclist(cyclist)
-                Assert.assertFalse("CyclistEntity not found after registration to walk.", cyclistWalks.isEmpty())
-                Assert.assertTrue("CyclistEntity not found after registration to walk.", cyclistWalks.contains(walk))
-            } else {
-                throw Exception("CyclistEntity registration failed.")
-            }
-        })
+            val walk = searchResult[0]
+
+            cyclist.registerToWalk(walk, callback = { isRegisterSuccess, _ ->
+                if (isRegisterSuccess) {
+                    bicycleWalkRepository.getAllForCyclist(cyclist) { _, cyclistWalks ->
+                        Assert.assertFalse("CyclistEntity not found after registration to walk.", cyclistWalks.isEmpty())
+                        Assert.assertTrue("CyclistEntity not found after registration to walk.", cyclistWalks.contains(walk))
+                    }
+                } else {
+                    throw Exception("CyclistEntity registration failed.")
+                }
+            })
+        }
     }
 }

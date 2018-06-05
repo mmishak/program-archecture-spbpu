@@ -27,13 +27,17 @@ class PublishingBicycleWalkTest {
         bicycleWalkRepository = MockedBicycleWalkRepository()
         organizerRepository = MockedOrganizerRepository()
         leaderRepository = MockedLeaderRepository()
-        organizer = organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company")
-        leader = leaderRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000")
+        organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company") {
+            organizer = it!!
+        }
+        leaderRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000") {
+            leader = it!!
+        }
     }
 
     @Test
     fun publishingBicycleWalk() {
-        val walk = bicycleWalkRepository.create(
+        bicycleWalkRepository.create(
                 title = "title",
                 description = "some description",
                 walkType = WalkType.WALK,
@@ -44,17 +48,25 @@ class PublishingBicycleWalkTest {
                 paymentType = PaymentType.PAY,
                 organizer = organizer,
                 leader = leader
-        )
+        ) { walk ->
+            walk ?: throw Exception("Walk not created.")
 
-        Assert.assertNotNull("Bicycle walk not added to database.", bicycleWalkRepository.get(walk.id))
-        Assert.assertEquals("Bicycle walk from database not equals created.", walk, bicycleWalkRepository.get(walk.id))
+            bicycleWalkRepository.get(walk.id) {
+                Assert.assertNotNull("Bicycle walk not added to database.", it)
+                Assert.assertEquals("Bicycle walk from database not equals created.", walk, it)
+            }
 
-        val requestedWalksForLeader = bicycleWalkRepository.getAllForLeader(leader).filter { it.leaderStatus == LeaderStatus.WAITING_ACCEPT }
+            bicycleWalkRepository.getAllForLeader(leader) { isSuccess, leaderWalks ->
+                if (!isSuccess) throw Exception("Get leader walks fail.")
 
-        Assert.assertTrue("Leader not receive request.", requestedWalksForLeader.contains(walk))
+                val requestedLeaderWalks = leaderWalks.filter { it.leaderStatus == LeaderStatus.WAITING_ACCEPT }
 
-        leader.acceptWalkRequest(walk)
+                Assert.assertTrue("Leader not receive request.", requestedLeaderWalks.contains(walk))
 
-        Assert.assertEquals("Walk not accepted.", LeaderStatus.ACCEPTED, walk.leaderStatus)
+                leader.acceptWalkRequest(walk)
+
+                Assert.assertEquals("Walk not accepted.", LeaderStatus.ACCEPTED, walk.leaderStatus)
+            }
+        }
     }
 }
