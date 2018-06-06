@@ -9,7 +9,7 @@ import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
-import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.BicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.util.DateTimeHelper
 
 class MockedBicycleWalkRepository : BicycleWalkRepository {

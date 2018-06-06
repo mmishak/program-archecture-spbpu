@@ -3,7 +3,7 @@ package ru.mmishak.bicyclewalks.domain.usecases.repositories
 import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Cyclist
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
-import ru.mmishak.bicyclewalks.domain.repositories.base.CyclistRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.CyclistRepository
 
 class MockedCyclistRepository : CyclistRepository {
 

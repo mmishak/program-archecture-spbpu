@@ -9,9 +9,9 @@ import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
 import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
-import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
-import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
-import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.BicycleWalkRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.LeaderRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.OrganizerRepository
 import ru.mmishak.bicyclewalks.domain.usecases.repositories.DataBaseImitator
 import ru.mmishak.bicyclewalks.domain.usecases.repositories.MockedBicycleWalkRepository
 import ru.mmishak.bicyclewalks.domain.usecases.repositories.MockedLeaderRepository
