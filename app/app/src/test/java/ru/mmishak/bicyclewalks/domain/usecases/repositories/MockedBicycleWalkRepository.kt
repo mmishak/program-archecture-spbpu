@@ -15,47 +15,26 @@ import ru.mmishak.bicyclewalks.domain.util.DateTimeHelper
 class MockedBicycleWalkRepository : BicycleWalkRepository {
     override fun generateId() = DataBaseImitator.bicycleWalks.generateId()
 
-    override fun getAll(callback: (isSuccess: Boolean, entities: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.bicycleWalks.toList())
-    }
+    override fun getAll() = DataBaseImitator.bicycleWalks.toList()
 
-    override fun get(id: Int, callback: (entity: BicycleWalkEntity?) -> Unit) {
-        callback.invoke(DataBaseImitator.bicycleWalks.find(id))
-    }
+    override fun get(id: Int) = DataBaseImitator.bicycleWalks.find(id)
 
-    override fun delete(entity: BicycleWalkEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.bicycleWalks.delete(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun delete(entity: BicycleWalkEntity) = DataBaseImitator.bicycleWalks.delete(entity)
 
-    override fun saveChanges(entity: BicycleWalkEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.bicycleWalks.saveChanges(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun saveChanges(entity: BicycleWalkEntity) = DataBaseImitator.bicycleWalks.saveChanges(entity)
 
-    override fun getAllForOrganizer(organizer: OrganizerEntity, callback: (isSuccess: Boolean, walks: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.bicycleWalks.filter { it.organizer.id == organizer.id })
-    }
+    override fun getAllForOrganizer(organizer: OrganizerEntity) = DataBaseImitator.bicycleWalks.filter { it.organizer.id == organizer.id }
 
-    override fun getAllForLeader(leader: LeaderEntity, callback: (isSuccess: Boolean, walks: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.bicycleWalks.filter { it.leader?.id == leader.id })
-    }
+    override fun getAllForLeader(leader: LeaderEntity) = DataBaseImitator.bicycleWalks.filter { it.leader?.id == leader.id }
 
-    override fun getAllForCyclist(cyclist: CyclistEntity, callback: (isSuccess: Boolean, walks: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.bicycleWalks.filter { it.cyclists.any { it.id == cyclist.id } })
-    }
+    override fun getAllForCyclist(cyclist: CyclistEntity) = DataBaseImitator.bicycleWalks.filter { it.cyclists.any { it.id == cyclist.id } }
 
-    override fun getAllAccepted(callback: (isSuccess: Boolean, walks: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(
-                true,
-                DataBaseImitator.bicycleWalks.filter { it.leaderStatus == LeaderStatus.WITHOUT_LEADER || it.leaderStatus == LeaderStatus.ACCEPTED }
-        )
-    }
+    override fun getAllAccepted() = DataBaseImitator.bicycleWalks.filter { it.leaderStatus == LeaderStatus.WITHOUT_LEADER || it.leaderStatus == LeaderStatus.ACCEPTED }
 
     override fun create(title: String, description: String, walkType: WalkType, duration: Long,
                         distance: Int, date: Long, price: Int, paymentType: PaymentType,
                         organizer: OrganizerEntity, cyclists: MutableList<CyclistEntity>, reviews: MutableList<ReviewEntity>,
-                        leader: LeaderEntity?, leaderStatus: LeaderStatus?, callback: ((walk: BicycleWalkEntity?) -> Unit)?) {
+                        leader: LeaderEntity?, leaderStatus: LeaderStatus?): BicycleWalkEntity {
         val walk = BicycleWalk(
                 id = generateId(),
                 title = title,
@@ -71,23 +50,18 @@ class MockedBicycleWalkRepository : BicycleWalkRepository {
                 reviews = reviews,
                 leader = leader
         )
-        val isSuccess = DataBaseImitator.bicycleWalks.add(walk)
-        callback?.invoke(if (isSuccess) walk else null)
+        DataBaseImitator.bicycleWalks.add(walk)
+        return walk
     }
 
-    override fun search(walkType: WalkType?, maxDuration: Long?, maxDistance: Int?, date: Long?,
-                        maxPrice: Int?, paymentType: PaymentType?,
-                        callback: (isSuccess: Boolean, walks: List<BicycleWalkEntity>) -> Unit) {
-        callback.invoke(
-                true,
-                DataBaseImitator.bicycleWalks.filter { walk ->
-                    walkType?.let { walk.walkType == it } ?: true &&
-                            maxDuration?.let { walk.duration <= it } ?: true &&
-                            maxDistance?.let { walk.distance <= it } ?: true &&
-                            date?.let { DateTimeHelper.equalsDates(walk.date, it) } ?: true &&
-                            maxPrice?.let { walk.price <= it } ?: true &&
-                            paymentType?.let { walk.paymentType == it } ?: true
-                }
-        )
+    override fun search(walkType: WalkType?, maxDuration: Long?, maxDistance: Int?, date: Long?, maxPrice: Int?, paymentType: PaymentType?): List<BicycleWalkEntity> {
+        return DataBaseImitator.bicycleWalks.filter { walk ->
+            walkType?.let { walk.walkType == it } ?: true &&
+                    maxDuration?.let { walk.duration <= it } ?: true &&
+                    maxDistance?.let { walk.distance <= it } ?: true &&
+                    date?.let { DateTimeHelper.equalsDates(walk.date, it) } ?: true &&
+                    maxPrice?.let { walk.price <= it } ?: true &&
+                    paymentType?.let { walk.paymentType == it } ?: true
+        }
     }
 }

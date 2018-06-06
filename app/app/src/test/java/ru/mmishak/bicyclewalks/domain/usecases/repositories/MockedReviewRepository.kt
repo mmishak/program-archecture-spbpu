@@ -9,26 +9,15 @@ import ru.mmishak.bicyclewalks.domain.repositories.base.ReviewRepository
 class MockedReviewRepository : ReviewRepository {
     override fun generateId() = DataBaseImitator.reviews.generateId()
 
-    override fun getAll(callback: (isSuccess: Boolean, entities: List<ReviewEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.reviews.toList())
-    }
+    override fun getAll() = DataBaseImitator.reviews.toList()
 
-    override fun get(id: Int, callback: (entity: ReviewEntity?) -> Unit) {
-        callback.invoke(DataBaseImitator.reviews.find(id))
-    }
+    override fun get(id: Int) = DataBaseImitator.reviews.find(id)
 
-    override fun delete(entity: ReviewEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.reviews.delete(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun delete(entity: ReviewEntity) = DataBaseImitator.reviews.delete(entity)
 
-    override fun saveChanges(entity: ReviewEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.reviews.saveChanges(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun saveChanges(entity: ReviewEntity) = DataBaseImitator.reviews.saveChanges(entity)
 
-    override fun createTextReview(author: HumanEntity, bicycleWalk: BicycleWalkEntity, time: Long,
-                                  text: String, callback: ((review: TextReview?) -> Unit)?) {
+    override fun createTextReview(author: HumanEntity, bicycleWalk: BicycleWalkEntity, time: Long, text: String): TextReview {
         val review = TextReview(
                 id = generateId(),
                 author = author,
@@ -36,7 +25,7 @@ class MockedReviewRepository : ReviewRepository {
                 time = time,
                 text = text
         )
-        val isSuccess = DataBaseImitator.reviews.add(review)
-        callback?.invoke(if (isSuccess) review else null)
+        DataBaseImitator.reviews.add(review)
+        return review
     }
 }

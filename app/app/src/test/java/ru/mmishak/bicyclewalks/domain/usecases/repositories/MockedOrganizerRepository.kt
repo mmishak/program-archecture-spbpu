@@ -9,27 +9,16 @@ class MockedOrganizerRepository : OrganizerRepository {
 
     override fun generateId() = DataBaseImitator.organizers.generateId()
 
-    override fun getAll(callback: (isSuccess: Boolean, entities: List<OrganizerEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.organizers.toList())
-    }
+    override fun getAll() = DataBaseImitator.organizers.toList()
 
-    override fun get(id: Int, callback: (entity: OrganizerEntity?) -> Unit) {
-        callback.invoke(DataBaseImitator.organizers.find(id))
-    }
+    override fun get(id: Int) = DataBaseImitator.organizers.find(id)
 
-    override fun delete(entity: OrganizerEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.organizers.delete(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun delete(entity: OrganizerEntity) = DataBaseImitator.organizers.delete(entity)
 
-    override fun saveChanges(entity: OrganizerEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.organizers.saveChanges(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun saveChanges(entity: OrganizerEntity) = DataBaseImitator.organizers.saveChanges(entity)
 
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, title: String,
-                        callback: ((organizer: OrganizerEntity?) -> Unit)?) {
+    override fun create(login: String, password: String, email: String, title: String): OrganizerEntity {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
         val organizer = Organizer(
                 id = generateId(),
@@ -38,7 +27,7 @@ class MockedOrganizerRepository : OrganizerRepository {
                 email = email,
                 title = title
         )
-        val isSuccess = DataBaseImitator.organizers.add(organizer)
-        callback?.invoke(if (isSuccess) organizer else null)
+        DataBaseImitator.organizers.add(organizer)
+        return organizer
     }
 }

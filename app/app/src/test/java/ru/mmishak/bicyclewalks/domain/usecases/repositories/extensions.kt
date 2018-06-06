@@ -12,26 +12,20 @@ fun <T : Entity> MutableList<T>.generateId(): Int {
 
 fun <T : Entity> MutableList<T>.find(id: Int) = this.find { it.id == id }
 
-fun <T : Entity> MutableList<T>.delete(entity: T): Boolean {
+fun <T : Entity> MutableList<T>.delete(entity: T) {
     var foundIndex: Int? = null
     for ((index, item) in this.withIndex())
         if (item.id == entity.id)
             foundIndex = index
-
-    foundIndex?.also { this.removeAt(foundIndex) } ?: return false
-
-    return true
+    foundIndex?.also { this.removeAt(foundIndex) }
 }
 
-fun <T : Entity> MutableList<T>.saveChanges(entity: T): Boolean {
+fun <T : Entity> MutableList<T>.saveChanges(entity: T) {
     var foundIndex: Int? = null
     for ((index, item) in this.withIndex())
         if (item.id == entity.id)
             foundIndex = index
-
-    foundIndex?.also { this[foundIndex] = entity } ?: return false
-
-    return true
+    foundIndex?.also { this[foundIndex] = entity }
 }
 
 fun <T : UserEntity> MutableList<T>.loginExists(login: String) = this.any { it.login == login }

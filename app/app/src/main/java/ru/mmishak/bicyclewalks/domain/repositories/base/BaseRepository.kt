@@ -6,11 +6,11 @@ import kotlin.collections.ArrayList
 interface BaseRepository<T : Entity> {
     fun generateId(): Int
 
-    fun getAll(callback: (isSuccess: Boolean, entities: List<T>) -> Unit)
+    fun getAll(): List<T>
 
-    fun get(id: Int, callback: (entity: T?) -> Unit)
+    fun get(id: Int): T?
 
-    fun delete(entity: T, callback: ((isSuccess: Boolean) -> Unit)? = null)
+    fun delete(entity: T)
 
-    fun saveChanges(entity: T, callback: ((isSuccess: Boolean) -> Unit)? = null)
+    fun saveChanges(entity: T)
 }

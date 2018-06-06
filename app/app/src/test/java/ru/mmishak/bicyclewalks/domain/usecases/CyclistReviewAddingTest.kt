@@ -32,42 +32,38 @@ class CyclistReviewAddingTest {
         reviewRepository = MockedReviewRepository()
         organizerRepository = MockedOrganizerRepository()
         bicycleWalkRepository = MockedBicycleWalkRepository()
-        organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company") {
-            organizer = it!!
-        }
-        cyclistRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000") {
-            cyclist = it!!
-        }
-        bicycleWalkRepository.create(
-                title = "title1",
-                description = "some description 1",
+        organizer = organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company")
+        cyclist = cyclistRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000")
+        walk = bicycleWalkRepository.create(
+                title = "title",
+                description = "some description",
                 walkType = WalkType.WALK,
-                duration = DateTimeHelper.hourToMillis(4),
+                duration = DateTimeHelper.hourToMillis(3),
                 distance = 14,
                 date = DateTimeHelper.dateToMillis("12.06.2018"),
-                paymentType = PaymentType.FREE,
+                price = 200,
+                paymentType = PaymentType.PAY,
                 organizer = organizer,
-                leaderStatus = LeaderStatus.WITHOUT_LEADER,
-                cyclists = mutableListOf(cyclist)
-        ) { walk = it!! }
+                cyclists = mutableListOf(cyclist),
+                leaderStatus = LeaderStatus.WITHOUT_LEADER
+        )
     }
 
     @Test
     fun cyclistReviewAdding() {
-        bicycleWalkRepository.getAllForCyclist(cyclist) { isSuccess, cyclistWalks ->
-            if (!isSuccess) throw Exception("Get cyclist walks fail.")
-            if (cyclistWalks.isEmpty()) throw Exception("Get cyclist walks fail.")
+        val cyclistWalks = bicycleWalkRepository.getAllForCyclist(cyclist)
 
-            val cyclistWalk = cyclistWalks[0]
+        if (cyclistWalks.isEmpty()) throw Exception("Get cyclist walks fail.")
 
-            reviewRepository.createTextReview(
-                    author = cyclist,
-                    bicycleWalk = cyclistWalk,
-                    time = System.currentTimeMillis(),
-                    text = "Good walk!"
-            ) {
-                Assert.assertNotNull("Review add fail.", it)
-            }
-        }
+        val cyclistWalk = cyclistWalks[0]
+
+        val review = reviewRepository.createTextReview(
+                author = cyclist,
+                bicycleWalk = cyclistWalk,
+                time = System.currentTimeMillis(),
+                text = "Good walk!"
+        )
+
+        Assert.assertNotNull("Review add fail.", review)
     }
 }

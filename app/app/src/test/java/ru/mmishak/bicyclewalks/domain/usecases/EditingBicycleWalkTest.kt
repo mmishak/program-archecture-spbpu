@@ -32,13 +32,9 @@ class EditingBicycleWalkTest {
         bicycleWalkRepository = MockedBicycleWalkRepository()
         organizerRepository = MockedOrganizerRepository()
         leaderRepository = MockedLeaderRepository()
-        organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company") {
-            organizer = it!!
-        }
-        leaderRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000") {
-            leader = it!!
-        }
-        bicycleWalkRepository.create(
+        organizer = organizerRepository.create("login1", "password1995", "a@b.ru", "Bicycle Walk Company")
+        leader = leaderRepository.create("login2", "pass", "ads@da.ru", "Anton", "Antonov", "+79000000000")
+        walk = bicycleWalkRepository.create(
                 title = "title",
                 description = "some description",
                 walkType = WalkType.WALK,
@@ -50,28 +46,20 @@ class EditingBicycleWalkTest {
                 organizer = organizer,
                 leader = leader,
                 leaderStatus = LeaderStatus.ACCEPTED
-        ) { walk = it!! }
+        )
     }
 
     @Test
     fun editingBicycleWalk() {
-        bicycleWalkRepository.getAllForOrganizer(organizer) { isSuccess, organizerWalks ->
-            if (!isSuccess) throw Exception("Get organizer walks fail.")
+        val organizerWalksList = bicycleWalkRepository.getAllForOrganizer(organizer)
+        val organizerWalk = organizerWalksList[0]
+        val newDescription = "changed description"
 
-            val organizerWalk = organizerWalks[0]
-            val newDescription = "changed description"
+        organizerWalk.description = newDescription
 
-            organizerWalk.description = newDescription
+        bicycleWalkRepository.saveChanges(organizerWalk)
 
-            bicycleWalkRepository.saveChanges(organizerWalk) { isSaveChangesSuccess ->
-                if (!isSaveChangesSuccess) throw Exception("Save changes fail.")
-
-                bicycleWalkRepository.getAllForOrganizer(organizer) { isSuccess, newOrganizerWalks ->
-                    if (!isSuccess) throw Exception("Get new organizer walks fail.")
-                    Assert.assertEquals("Walk not changed.", newDescription, newOrganizerWalks[0].description)
-                }
-            }
-        }
-
+        val newOrganizerWalksList = bicycleWalkRepository.getAllForOrganizer(organizer)
+        Assert.assertEquals("Walk not changed.", newDescription, newOrganizerWalksList[0].description)
     }
 }
