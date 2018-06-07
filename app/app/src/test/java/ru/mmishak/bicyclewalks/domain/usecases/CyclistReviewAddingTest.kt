@@ -64,6 +64,6 @@ class CyclistReviewAddingTest {
                 text = "Good walk!"
         )
 
-        Assert.assertNotNull("Review add fail.", review)
+        Assert.assertNotNull("ReviewEntity add fail.", review)
     }
 }

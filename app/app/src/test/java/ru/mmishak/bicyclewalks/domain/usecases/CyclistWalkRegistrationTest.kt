@@ -83,10 +83,10 @@ class CyclistWalkRegistrationTest {
         cyclist.registerToWalk(walk, callback = {isSuccess, _ ->
             if (isSuccess) {
                 val cyclistWalks = bicycleWalkRepository.getAllForCyclist(cyclist)
-                Assert.assertFalse("CyclistEntity not found after registration to walk.", cyclistWalks.isEmpty())
-                Assert.assertTrue("CyclistEntity not found after registration to walk.", cyclistWalks.contains(walk))
+                Assert.assertFalse("HumanEntity not found after registration to walk.", cyclistWalks.isEmpty())
+                Assert.assertTrue("HumanEntity not found after registration to walk.", cyclistWalks.contains(walk))
             } else {
-                throw Exception("CyclistEntity registration failed.")
+                throw Exception("HumanEntity registration failed.")
             }
         })
     }
