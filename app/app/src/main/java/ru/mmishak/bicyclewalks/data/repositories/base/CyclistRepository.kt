@@ -1,4 +1,4 @@
-package ru.mmishak.bicyclewalks.domain.repositories.base
+package ru.mmishak.bicyclewalks.data.repositories.base
 
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 

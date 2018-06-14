@@ -3,33 +3,22 @@ package ru.mmishak.bicyclewalks.domain.usecases.repositories
 import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Cyclist
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
-import ru.mmishak.bicyclewalks.domain.repositories.base.CyclistRepository
+import ru.mmishak.bicyclewalks.data.repositories.base.CyclistRepository
 
 class MockedCyclistRepository : CyclistRepository {
 
     override fun generateId() = DataBaseImitator.cyclists.generateId()
 
-    override fun getAll(callback: (isSuccess: Boolean, entities: List<CyclistEntity>) -> Unit) {
-        callback.invoke(true, DataBaseImitator.cyclists.toList())
-    }
+    override fun getAll() = DataBaseImitator.cyclists.toList()
 
-    override fun get(id: Int, callback: (entity: CyclistEntity?) -> Unit) {
-        callback.invoke(DataBaseImitator.cyclists.find(id))
-    }
+    override fun get(id: Int) = DataBaseImitator.cyclists.find(id)
 
-    override fun delete(entity: CyclistEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.cyclists.delete(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun delete(entity: CyclistEntity) = DataBaseImitator.cyclists.delete(entity)
 
-    override fun saveChanges(entity: CyclistEntity, callback: ((isSuccess: Boolean) -> Unit)?) {
-        val isSuccess = DataBaseImitator.cyclists.saveChanges(entity)
-        callback?.invoke(isSuccess)
-    }
+    override fun saveChanges(entity: CyclistEntity) = DataBaseImitator.cyclists.saveChanges(entity)
 
     @Throws(LoginAlreadyExistsException::class)
-    override fun create(login: String, password: String, email: String, firstName: String,
-                        secondName: String, phone: String, callback: ((entity: CyclistEntity?) -> Unit)?) {
+    override fun create(login: String, password: String, email: String, firstName: String, secondName: String, phone: String): CyclistEntity {
         if (DataBaseImitator.loginExists(login)) throw LoginAlreadyExistsException(login)
         val cyclist = Cyclist(
                 id = generateId(),
@@ -40,7 +29,7 @@ class MockedCyclistRepository : CyclistRepository {
                 secondName = secondName,
                 phone = phone
         )
-        val isSuccess = DataBaseImitator.cyclists.add(cyclist)
-        callback?.invoke(if (isSuccess) cyclist else null)
+        DataBaseImitator.cyclists.add(cyclist)
+        return cyclist
     }
 }
