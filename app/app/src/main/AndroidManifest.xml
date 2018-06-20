@@ -17,6 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.walk.BicycleWalkActivity" />
+        <activity android:name=".ui.walk.CreateWalkActivity" />
+        <activity android:name=".ui.list.WalkListActivity"></activity>
     </application>
 
 </manifest>
