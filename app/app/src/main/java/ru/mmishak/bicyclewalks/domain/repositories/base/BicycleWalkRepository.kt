@@ -1,4 +1,4 @@
-package ru.mmishak.bicyclewalks.data.repositories.base
+package ru.mmishak.bicyclewalks.domain.repositories.base
 
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntity
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.LeaderStatus

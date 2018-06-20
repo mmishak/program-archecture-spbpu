@@ -1,4 +1,4 @@
-package ru.mmishak.bicyclewalks.data.repositories.base
+package ru.mmishak.bicyclewalks.domain.repositories.base
 
 import ru.mmishak.bicyclewalks.domain.entities.users.base.HumanEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException

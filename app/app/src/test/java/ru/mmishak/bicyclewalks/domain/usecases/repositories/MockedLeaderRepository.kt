@@ -3,7 +3,7 @@ package ru.mmishak.bicyclewalks.domain.usecases.repositories
 import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Leader
 import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
-import ru.mmishak.bicyclewalks.data.repositories.base.LeaderRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.LeaderRepository
 
 class MockedLeaderRepository : LeaderRepository {
 

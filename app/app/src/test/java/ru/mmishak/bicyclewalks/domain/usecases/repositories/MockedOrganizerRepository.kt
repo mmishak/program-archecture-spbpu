@@ -3,7 +3,7 @@ package ru.mmishak.bicyclewalks.domain.usecases.repositories
 import ru.mmishak.bicyclewalks.domain.entities.users.implementation.Organizer
 import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
 import ru.mmishak.bicyclewalks.domain.exceptions.LoginAlreadyExistsException
-import ru.mmishak.bicyclewalks.data.repositories.base.OrganizerRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
 
 class MockedOrganizerRepository : OrganizerRepository {
 

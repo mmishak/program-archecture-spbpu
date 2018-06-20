@@ -1,9 +1,7 @@
 package ru.mmishak.bicyclewalks.data.entities
 
-import ru.mmishak.bicyclewalks.domain.entities.users.base.LeaderEntity
-
 data class BicycleWalkEntity (
-        val id: Int,
+        override val id: Int,
         val title: String,
         val description: String,
         val walkType: Int,
@@ -12,10 +10,7 @@ data class BicycleWalkEntity (
         val date: Long,
         val price: Int,
         val paymentType: Int,
-        val organizer: OrganizerEntity,
-        val cyclists: MutableList<HumanEntity>,
-        val reviews: MutableList<ReviewEntity>,
-        val leader: LeaderEntity? = null,
+        val organizer_id: Int,
+        val leader_id: Int?,
         val leaderStatus: Int
-
-)
+) : Entity
