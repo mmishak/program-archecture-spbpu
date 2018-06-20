@@ -102,7 +102,7 @@ object LeaderGateway : Gateway<HumanEntity> {
         db.delete(LeaderTable.TABLE_NAME, selection, selectionArgs)
     }
 
-    override fun create(entity: HumanEntity) {
+    override fun create(entity: HumanEntity): Int {
         val db = DbHelper(App.getContext()).writableDatabase
         val values = ContentValues().apply {
             put(LeaderTable.COLUMN_LOGIN, entity.login)
@@ -112,6 +112,6 @@ object LeaderGateway : Gateway<HumanEntity> {
             put(LeaderTable.COLUMN_SECOND_NAME, entity.secondName)
             put(LeaderTable.COLUMN_PHONE, entity.phone)
         }
-        db.insert(LeaderTable.TABLE_NAME, null, values)
+        return db.insert(LeaderTable.TABLE_NAME, null, values).toInt()
     }
 }

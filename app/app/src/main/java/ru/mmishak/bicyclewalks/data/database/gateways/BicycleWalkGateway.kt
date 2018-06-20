@@ -128,7 +128,7 @@ object BicycleWalkGateway : Gateway<BicycleWalkEntity> {
         db.delete(BicycleWalkTable.TABLE_NAME, selection, selectionArgs)
     }
 
-    override fun create(entity: BicycleWalkEntity) {
+    override fun create(entity: BicycleWalkEntity): Int {
         val db = DbHelper(App.getContext()).writableDatabase
         val values = ContentValues().apply {
             put(BicycleWalkTable.COLUMN_LEADER_ID, entity.leader_id)
@@ -143,6 +143,6 @@ object BicycleWalkGateway : Gateway<BicycleWalkEntity> {
             put(BicycleWalkTable.COLUMN_TITLE, entity.title)
             put(BicycleWalkTable.COLUMN_DESCRIPTION, entity.description)
         }
-        db.insert(BicycleWalkTable.TABLE_NAME, null, values)
+        return db.insert(BicycleWalkTable.TABLE_NAME, null, values).toInt()
     }
 }

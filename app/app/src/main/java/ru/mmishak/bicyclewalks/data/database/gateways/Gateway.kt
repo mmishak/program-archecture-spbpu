@@ -11,5 +11,5 @@ interface Gateway<T : Entity> {
 
     fun delete(id: Int)
 
-    fun create(entity: T)
+    fun create(entity: T): Int
 }

@@ -91,7 +91,7 @@ object OrganizerGateway : Gateway<OrganizerEntity> {
         db.delete(OrganizerTable.TABLE_NAME, selection, selectionArgs)
     }
 
-    override fun create(entity: OrganizerEntity) {
+    override fun create(entity: OrganizerEntity): Int {
         val db = DbHelper(App.getContext()).writableDatabase
         val values = ContentValues().apply {
             put(OrganizerTable.COLUMN_LOGIN, entity.login)
@@ -99,6 +99,6 @@ object OrganizerGateway : Gateway<OrganizerEntity> {
             put(OrganizerTable.COLUMN_EMAIL, entity.email)
             put(OrganizerTable.COLUMN_TITLE, entity.title)
         }
-        db.insert(OrganizerTable.TABLE_NAME, null, values)
+        return db.insert(OrganizerTable.TABLE_NAME, null, values).toInt()
     }
 }
