@@ -4,7 +4,7 @@ import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.base.BicycleWalkEntit
 import ru.mmishak.bicyclewalks.domain.entities.review.base.ReviewEntity
 import ru.mmishak.bicyclewalks.domain.entities.review.implementation.TextReview
 import ru.mmishak.bicyclewalks.domain.entities.users.base.HumanEntity
-import ru.mmishak.bicyclewalks.data.repositories.base.ReviewRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.ReviewRepository
 
 class MockedReviewRepository : ReviewRepository {
     override fun generateId() = DataBaseImitator.reviews.generateId()

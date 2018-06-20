@@ -1,15 +1,15 @@
 package ru.mmishak.bicyclewalks.data.database.gateways
 
-import ru.mmishak.bicyclewalks.data.entities.HumanEntity
+import ru.mmishak.bicyclewalks.data.entities.Entity
 
-interface Gateway<T> {
-    fun read(id: Int): T
+interface Gateway<T : Entity> {
+    fun read(id: Int): T?
 
-    fun update(id: Int, entity: T)
+    fun update(entity: T)
 
     fun getAll(): List<T>
 
     fun delete(id: Int)
 
-    fun create(entity: T)
+    fun create(entity: T): Int
 }

@@ -27,7 +27,7 @@ object BicycleWalkTable {
     const val STATUS_WITHOUT_LEADER = 0
     const val STATUS_WAITING_ACCEPT = 1
     const val STATUS_ACCEPTED = 2
-    const val STATUS_REJECTE = 3
+    const val STATUS_REJECTED = 3
 
     val SQL_CREATE_TABLE: String
         get() = "CREATE TABLE $TABLE_NAME ($_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +

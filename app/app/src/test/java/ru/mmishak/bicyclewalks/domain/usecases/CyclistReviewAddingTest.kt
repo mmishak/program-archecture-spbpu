@@ -9,10 +9,10 @@ import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.PaymentType
 import ru.mmishak.bicyclewalks.domain.entities.bicyclewalk.enums.WalkType
 import ru.mmishak.bicyclewalks.domain.entities.users.base.CyclistEntity
 import ru.mmishak.bicyclewalks.domain.entities.users.base.OrganizerEntity
-import ru.mmishak.bicyclewalks.data.repositories.base.BicycleWalkRepository
-import ru.mmishak.bicyclewalks.data.repositories.base.CyclistRepository
-import ru.mmishak.bicyclewalks.data.repositories.base.OrganizerRepository
-import ru.mmishak.bicyclewalks.data.repositories.base.ReviewRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.BicycleWalkRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.CyclistRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.OrganizerRepository
+import ru.mmishak.bicyclewalks.domain.repositories.base.ReviewRepository
 import ru.mmishak.bicyclewalks.domain.usecases.repositories.*
 import ru.mmishak.bicyclewalks.domain.util.DateTimeHelper
 

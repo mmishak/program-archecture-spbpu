@@ -7,7 +7,7 @@ object ReviewGateway : Gateway<ReviewEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun update(id: Int, entity: ReviewEntity) {
+    override fun update(entity: ReviewEntity) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -19,7 +19,7 @@ object ReviewGateway : Gateway<ReviewEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun create(entity: ReviewEntity) {
+    override fun create(entity: ReviewEntity): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
