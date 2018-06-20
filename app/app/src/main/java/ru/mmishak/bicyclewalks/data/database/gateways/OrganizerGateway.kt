@@ -13,6 +13,7 @@ object OrganizerGateway : Gateway<OrganizerEntity> {
                 OrganizerTable._ID,
                 OrganizerTable.COLUMN_LOGIN,
                 OrganizerTable.COLUMN_PASSWORD,
+                OrganizerTable.COLUMN_EMAIL,
                 OrganizerTable.COLUMN_TITLE)
         val selection = "${OrganizerTable._ID} = ?"
         val selectionArgs = arrayOf(id.toString())

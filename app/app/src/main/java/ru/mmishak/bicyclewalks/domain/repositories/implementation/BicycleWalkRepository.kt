@@ -23,7 +23,9 @@ class BicycleWalkRepository : BicycleWalkRepository {
     }
 
     override fun getAllForLeader(leader: LeaderEntity): List<BicycleWalkEntity> {
-        return getAll().filter { it.leader?.id == leader.id }
+        var values = getAll()
+        values = values.filter { it.leader?.id == leader.id }
+        return values
     }
 
     override fun getAllForCyclist(cyclist: CyclistEntity): List<BicycleWalkEntity> {

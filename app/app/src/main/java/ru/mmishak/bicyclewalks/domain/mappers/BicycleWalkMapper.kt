@@ -18,7 +18,7 @@ object BicycleWalkMapper : DataMapper<BicycleWalkEntity, BicycleWalk> {
                 price = 200,
                 paymentType = PaymentTypeMapper.toPaymentType(entity.paymentType),
                 organizer = OrganizerRepository().get(entity.organizer_id)!!,
-                leader = LeaderRepository().get(entity.id),
+                leader = entity.leader_id?.let { LeaderRepository().get(entity.leader_id) },
                 cyclists = mutableListOf(),
                 reviews = mutableListOf(),
                 leaderStatus = LeaderStatusMapper.toLeaderStatus(entity.leaderStatus)
