@@ -7,7 +7,7 @@
     tools:context=".ui.list.WalkListActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Список оргпнизатора"
@@ -24,6 +24,13 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/add_walk_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="создать велопрогулку"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 
